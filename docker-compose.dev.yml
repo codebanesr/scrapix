@@ -3,7 +3,9 @@ version: '3'
 
 services:
   scrapix:
-    image: scrapix:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
     restart: always
     ports:
       - 8080:8080

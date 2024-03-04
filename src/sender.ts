@@ -87,7 +87,9 @@ export class Sender {
       this.index_uid !== this.initial_index_uid &&
       stats.numberOfDocuments > 0
     ) {
-      await this.__swapIndex()
+      // await this.__swapIndex()
+      // we want to add more documents, not replace the index
+      await this.__transferDocsFromTmpToMainIndex()
     } else if (this.index_uid !== this.initial_index_uid) {
       const task = await this.client.deleteIndex(this.index_uid)
       await this.client.index(this.index_uid).waitForTask(task.taskUid)
@@ -126,5 +128,19 @@ export class Sender {
     ])
     const task = await this.client.deleteIndex(this.index_uid)
     await this.client.index(this.index_uid).waitForTask(task.taskUid)
+  }
+
+  // copy docs from tmp to main index and remove those docs. Can be done by our main server too if this is unstable.
+  async __transferDocsFromTmpToMainIndex() {
+    console.log('Sender::__transferDocsFromTmpToMainIndex')
+    const tmpIndex = await this.client.getIndex(this.index_uid)
+    const mainIndex = await this.client.getIndex(this.initial_index_uid)
+    const documents = await tmpIndex.getDocuments({ limit: 1000 })
+
+    if (documents.results.length > 0) {
+      await mainIndex.addDocuments(documents.results)
+      await tmpIndex.deleteDocuments(documents.results.map((doc) => doc.uid))
+      await this.__transferDocsFromTmpToMainIndex()
+    }
   }
 }
