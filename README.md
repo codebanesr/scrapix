@@ -236,3 +236,8 @@ docker run -rm --env CRAWLER_CONFIG=$CRAWLER_CONFIG getmeili/scrapix
 ## Publish
 
 The CI handles the publishing.
+
+
+---
+## Our Usecase
+/crawl -> _tmp -> copy to main index -> call the webhook, update status -> build the knowledgebase

@@ -2,7 +2,6 @@ import { MeiliSearch, Settings } from 'meilisearch'
 import { Config, DocumentType } from './types'
 import { initMeilisearchClient } from './meilisearch_client'
 import { Webhook } from './webhook'
-
 //Create a class called Sender that will queue the json data and batch it to a Meilisearch instance
 export class Sender {
   config: Config
