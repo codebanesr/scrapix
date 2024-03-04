@@ -1,0 +1,20 @@
+# Compiled output
+dist/
+build/
+
+# Node.js dependency directory
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS-specific files
+.DS_Store
+
+# IDE/Editor configurations
+.vscode/
+.idea/
+
+# Optional: Coverage reports (if you generate them) 
+coverage/
